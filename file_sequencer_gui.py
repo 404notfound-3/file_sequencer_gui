@@ -21,8 +21,8 @@ frame = ttk.Frame(root)
 frame1 = ttk.Frame(frame)
 frame2 = ttk.Frame(frame)
 input_label = ttk.Label(frame1, text = "Input Folder PATH : ")
-folder_path = tk.StringVar()
-input_entry = ttk.Entry(frame2, width = 40, textvariable = folder_path)
+folder_path_ = tk.StringVar()
+input_entry = ttk.Entry(frame2, width = 40, textvariable = folder_path_)
 def browse(event = None):
     folder_path_temp = filedialog.askdirectory()
     input_entry.insert(tk.END, folder_path_temp)
@@ -40,7 +40,7 @@ dict_extensions = {
 
 def submit(event = None):
     global folder_path
-    folderpath = folder_path.get()
+    folderpath = folder_path_.get()
     def file_finder(folder_path, file_extensions):
         return [file for file in os.listdir(folder_path) for extensions in file_extensions if file.endswith(extensions)]
 
@@ -56,7 +56,6 @@ def submit(event = None):
             item_new_path = os.path.join(folder_path, item)
             shutil.move(item_path, item_new_path)
     messagebox.showinfo("Done", "Task Completed Successfully")
-    root.destroy()
 
 browse_button = ttk.Button(frame2, text = "Browse", command = browse, cursor = "hand2")
 submit_button = ttk.Button(root, text = "Submit", command = submit, cursor = "hand2")
