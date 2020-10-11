@@ -1,13 +1,15 @@
 import os
 import shutil
+import webbrowser
 import tkinter as tk
+from threading import Thread
 from tkinter import ttk, messagebox, PhotoImage, filedialog
 
 root = tk.Tk()
 root.title(" File Sequencer")
-root.geometry("500x200")
+root.geometry("600x230")
 root.resizable(False, False)
-root.wm_iconbitmap(r"icon.ico")
+root.wm_iconbitmap(r"icons\icon.ico")
 
 def exit_func(event = None):
     mbox = messagebox.askyesno("Warning", "Are you sure you want to Exit", icon = "warning")
@@ -57,10 +59,19 @@ def submit(event = None):
             shutil.move(item_path, item_new_path)
     messagebox.showinfo("Done", "Task Completed Successfully")
 
-browse_button = ttk.Button(frame2, text = "Browse", command = browse, cursor = "hand2")
-submit_button = ttk.Button(root, text = "Submit", command = submit, cursor = "hand2")
+def action(event = None):
+    thread = Thread(submit()).start()
+
+def browser(event = None):
+    webbrowser.open("https://github.com/404notfound-3")
+
+submit_icon = PhotoImage(file = r"icons\button_submit_24.png")
+browse_icon = PhotoImage(file = r"icons\button_browse_24.png")
+bottom_label_icon = PhotoImage(file = r"icons\bottom_label_24.png")
+browse_button = tk.Button(frame2, image = browse_icon, command = browse, cursor = "hand2", borderwidth = 0)
+submit_button = tk.Button(root, image = submit_icon, command = action, cursor = "hand2", borderwidth = 0)
 line = tk.Frame(root, height = 1, width = 500, bg = "gray80", relief = "groove")
-bottom_label = ttk.Label(root, text = "                                       This Software is developed by : Rahul Meena", background = "black", foreground = "white", cursor = "pirate")
+bottom_button = tk.Button(root, image = bottom_label_icon, command = browser, borderwidth = 0, cursor = "hand2")
 
 
 frame.pack(side = tk.TOP, pady = 30)
@@ -71,7 +82,7 @@ input_entry.pack(pady = 0, side = tk.LEFT)
 browse_button.pack(padx = 2, pady = 0, side = tk.RIGHT)
 line.pack(pady = 0)
 submit_button.pack(pady = 30)
-bottom_label.pack(side = tk.BOTTOM, fill = tk.X, padx = 0, pady = 1)
+bottom_button.pack(side = tk.BOTTOM, fill = tk.X, padx = 0, pady = 1)
 
 root.bind("<Control-q>", exit_func)
 root.bind("<Escape>", exit_func)
